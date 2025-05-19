@@ -1,0 +1,43 @@
+﻿@model MVC_CASE.Models.VMs.MakaleViewModel
+
+@{
+    ViewData["Title"] = "Makale Düzenle";
+}
+
+<h2 class="mb-4">Makale Düzenle</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Content" class="form-label"></label>
+        <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Kategoriler</label><br />
+        @foreach (var category in Model.Categories)
+        {
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="SelectedCategoryIds" value="@category.Value"
+                @(Model.SelectedCategoryIds.Contains(int.Parse(category.Value)) ? "checked" : "") />
+                <label class="form-check-label">@category.Text</label>
+            </div>
+        }
+        <span asp-validation-for="SelectedCategoryIds" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-warning">Güncelle</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
